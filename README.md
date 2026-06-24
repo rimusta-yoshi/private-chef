@@ -1,36 +1,37 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Private Chef Website
 
-## Getting Started
+Next.js site for a private chef business: marketing pages, a contact form, a booking system, and Stripe-powered deposit payments with email notifications.
 
-First, run the development server:
+## Stack (free-tier friendly)
+
+- **Next.js + Tailwind** — frontend, deployed free on [Vercel](https://vercel.com)
+- **Supabase** — Postgres database for contact messages and bookings (free tier)
+- **Stripe** — booking deposit payments (no monthly fee, percentage per transaction only)
+- **Resend** — sends an email notification on new contact messages, bookings, and paid deposits (free tier)
+
+## Getting started
 
 ```bash
+npm install
+cp .env.example .env.local   # fill in the values below
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Environment variables
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+See [`.env.example`](.env.example). You'll need accounts (all free to start) for:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. **Supabase** — create a project, run [`supabase/schema.sql`](supabase/schema.sql) in the SQL editor, then copy the project URL and `service_role` key.
+2. **Resend** — create an API key, verify a sending domain (or use the Resend test sender while developing), and set the email address that should receive notifications.
+3. **Stripe** — copy the secret key from the dashboard; set up a webhook endpoint pointing at `/api/webhooks/stripe` for the `checkout.session.completed` event and copy its signing secret.
 
-## Learn More
+## API routes
 
-To learn more about Next.js, take a look at the following resources:
+- `POST /api/contact` — stores a contact message, emails the owner
+- `POST /api/bookings` — stores a booking request, emails the owner
+- `POST /api/checkout` — creates a Stripe Checkout session for a booking deposit
+- `POST /api/webhooks/stripe` — marks a booking's deposit as paid when Stripe confirms payment
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Deployment
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Push to GitHub, import the repo into [Vercel](https://vercel.com/new), and add the same environment variables there. Free tier covers this project comfortably until traffic/booking volume grows significantly.
