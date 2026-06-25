@@ -12,19 +12,19 @@ export function MenuCarousel({ tiers }: { tiers: Tier[] }) {
   const trackRef = useRef<HTMLDivElement>(null)
   const panelRefs = useRef<(HTMLDivElement | null)[]>([])
 
-  function getInitialIndex() {
-    if (typeof window === "undefined") return 0
-    return Math.max(0, tiers.findIndex((tier) => tier.id === window.location.hash.replace("#", "")))
-  }
-
-  const [active, setActive] = useState(getInitialIndex)
+  // Starts at 0 on both server and client so SSR markup matches on hydration;
+  // the hash-deep-link jump happens after mount, once it's safe to read window.location.
+  const [active, setActive] = useState(0)
 
   useEffect(() => {
-    if (active > 0) {
-      panelRefs.current[active]?.scrollIntoView({ behavior: "auto", inline: "center", block: "nearest" })
+    const hash = window.location.hash.replace("#", "")
+    const index = tiers.findIndex((tier) => tier.id === hash)
+    if (index > 0) {
+      panelRefs.current[index]?.scrollIntoView({ behavior: "auto", inline: "center", block: "nearest" })
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- one-time sync from the URL hash on mount
+      setActive(index)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [tiers])
 
   useEffect(() => {
     const track = trackRef.current
@@ -64,15 +64,15 @@ export function MenuCarousel({ tiers }: { tiers: Tier[] }) {
             }}
             className="w-[calc(100%-2.5rem)] flex-none snap-center"
           >
-            <Card tone={tier.featured ? "inverse" : "raised"} padding="lg">
-              <div className="mb-3.5 flex items-center gap-3">
+            <Card tone={tier.featured ? "inverse" : "raised"} padding="md" className="flex max-h-[78vh] flex-col">
+              <div className="mb-2.5 flex items-center gap-3">
                 <Eyebrow tone={tier.featured ? "onDark" : "accent"}>{tier.tagline}</Eyebrow>
                 {tier.featured && <Badge tone="brass">Signature</Badge>}
               </div>
-              <h2 className={`mb-4 text-[2.2rem] ${tier.featured ? "text-[var(--paper)]" : ""}`}>{tier.name}</h2>
-              <div className="mb-[18px] flex items-baseline gap-2.5">
+              <h2 className={`mb-2.5 text-[1.875rem] ${tier.featured ? "text-[var(--paper)]" : ""}`}>{tier.name}</h2>
+              <div className="mb-3 flex items-baseline gap-2.5">
                 <span
-                  className={`font-display text-[30px] ${tier.featured ? "text-[var(--accent-tint)]" : "text-[var(--accent-strong)]"}`}
+                  className={`font-display text-2xl ${tier.featured ? "text-[var(--accent-tint)]" : "text-[var(--accent-strong)]"}`}
                 >
                   {tier.price}
                 </span>
@@ -85,18 +85,20 @@ export function MenuCarousel({ tiers }: { tiers: Tier[] }) {
                 )}
               </div>
               <p
-                className={`mb-7 text-base leading-[1.7] ${tier.featured ? "text-[rgba(246,241,231,0.74)]" : "text-[var(--text-muted)]"}`}
+                className={`mb-4 text-sm leading-[1.6] ${tier.featured ? "text-[rgba(246,241,231,0.74)]" : "text-[var(--text-muted)]"}`}
               >
                 {tier.desc}
               </p>
-              <div className={`mb-2 border-t ${tier.featured ? "border-white/14" : "border-[var(--line)]"}`} />
-              {tier.courses ? (
-                <CoursePlaceholders count={tier.courses} featured={tier.featured} />
-              ) : (
-                <BespokeCanvas featured={tier.featured} />
-              )}
-              <div className="mt-7">
-                <Button variant={tier.featured ? "accent" : "primary"} size="lg" href="/reserve" block>
+              <div className={`mb-1 border-t ${tier.featured ? "border-white/14" : "border-[var(--line)]"}`} />
+              <div className="flex-1 overflow-y-auto">
+                {tier.courses ? (
+                  <CoursePlaceholders count={tier.courses} featured={tier.featured} compact />
+                ) : (
+                  <BespokeCanvas featured={tier.featured} compact />
+                )}
+              </div>
+              <div className="mt-4 flex-none">
+                <Button variant={tier.featured ? "accent" : "primary"} size="md" href="/reserve" block>
                   {tier.cta}
                 </Button>
               </div>
@@ -105,7 +107,7 @@ export function MenuCarousel({ tiers }: { tiers: Tier[] }) {
         ))}
       </div>
 
-      <div className="mt-6 flex items-center justify-center gap-2">
+      <div className="mt-5 flex items-center justify-center gap-2">
         {tiers.map((tier, i) => (
           <button
             key={tier.id}
