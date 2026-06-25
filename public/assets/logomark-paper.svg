@@ -1,0 +1,12 @@
+<svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Plated and Private logomark">
+  <circle cx="60" cy="60" r="30" fill="none" stroke="#F6F1E7" stroke-width="1.5"></circle>
+  <g fill="#F6F1E7">
+    <circle cx="60" cy="14" r="5.2"></circle>
+    <circle cx="99.8" cy="37" r="5.2"></circle>
+    <circle cx="99.8" cy="83" r="5.2"></circle>
+    <circle cx="60" cy="106" r="5.2"></circle>
+    <circle cx="20.2" cy="83" r="5.2"></circle>
+    <circle cx="20.2" cy="37" r="5.2"></circle>
+  </g>
+  <circle cx="60" cy="60" r="3" fill="#F6F1E7"></circle>
+</svg>
