@@ -1,3 +1,4 @@
+import Link from "next/link"
 import { Button } from "@/components/ds/Button"
 import { Eyebrow } from "@/components/ds/Eyebrow"
 import { RuleMark } from "@/components/ds/RuleMark"
@@ -12,9 +13,9 @@ const PILLARS: [string, string][] = [
   ["Cooked live", "Two chefs cook and plate every course in front of you, one by one."],
 ]
 
-function TierTeaserCard({ tier, href }: { tier: Tier; href: string }) {
+function TierTeaserCard({ tier }: { tier: Tier }) {
   return (
-    <Card tone={tier.featured ? "inverse" : "raised"} padding="lg" className="flex h-full flex-col gap-3.5">
+    <Card interactive tone={tier.featured ? "inverse" : "raised"} padding="lg" className="flex h-full flex-col gap-3.5">
       <div className="flex items-center justify-between">
         <Eyebrow tone={tier.featured ? "onDark" : "accent"}>{tier.tagline}</Eyebrow>
         {tier.featured && <Badge tone="brass">Signature</Badge>}
@@ -36,11 +37,11 @@ function TierTeaserCard({ tier, href }: { tier: Tier; href: string }) {
           </span>
         )}
       </div>
-      <div className="mt-1.5">
-        <Button variant={tier.featured ? "accent" : "secondary"} href={href} block>
-          View this menu
-        </Button>
-      </div>
+      <span
+        className={`mt-1.5 font-display text-lg italic ${tier.featured ? "text-[var(--accent-tint)]" : "text-[var(--accent-strong)]"}`}
+      >
+        View menu →
+      </span>
     </Card>
   )
 }
@@ -136,14 +137,14 @@ export default function Home() {
         </div>
         <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
           {TIERS.map((tier) => (
-            <div key={tier.id} className="md:hidden">
-              <TierTeaserCard tier={tier} href={`/menu/${tier.id}`} />
-            </div>
+            <Link key={tier.id} href={`/menu/${tier.id}`} className="block no-underline md:hidden">
+              <TierTeaserCard tier={tier} />
+            </Link>
           ))}
           {TIERS.map((tier) => (
-            <div key={tier.id} className="hidden md:block">
-              <TierTeaserCard tier={tier} href={`/menu#${tier.id}`} />
-            </div>
+            <Link key={tier.id} href={`/menu#${tier.id}`} className="hidden no-underline md:block">
+              <TierTeaserCard tier={tier} />
+            </Link>
           ))}
         </div>
         <div className="mt-11 hidden text-center md:block">
