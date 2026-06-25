@@ -27,7 +27,7 @@ export function Footer() {
           <div className="mb-3 font-sans text-[11px] uppercase tracking-[0.2em] text-[var(--accent-tint)]">
             Visit
           </div>
-          <Link href="/menu" className="block py-1.5 text-sm text-[rgba(246,241,231,0.7)] no-underline">
+          <Link href="/#menus-teaser" className="block py-1.5 text-sm text-[rgba(246,241,231,0.7)] no-underline">
             The Menu
           </Link>
           <Link href="/story" className="block py-1.5 text-sm text-[rgba(246,241,231,0.7)] no-underline">

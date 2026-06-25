@@ -37,7 +37,7 @@ function Hero() {
           <Button variant="accent" size="lg" block href="/reserve" className="md:w-auto">
             Reserve an evening
           </Button>
-          <Button variant="secondary" size="lg" onDark block href="/menu" className="md:w-auto">
+          <Button variant="secondary" size="lg" onDark block href="/#menus-teaser" className="md:w-auto">
             View the menus
           </Button>
         </div>
@@ -130,11 +130,6 @@ export default function Home() {
               </Card>
             </Link>
           ))}
-        </div>
-        <div className="mt-11 text-center">
-          <Button variant="primary" href="/menu" trailing={<span>→</span>}>
-            See all three menus
-          </Button>
         </div>
       </Section>
 

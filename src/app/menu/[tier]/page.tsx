@@ -34,7 +34,7 @@ export default async function TierDetailPage({ params }: { params: Promise<{ tie
     <div className="flex min-h-[calc(100dvh-73px)] flex-col bg-[var(--ink-900)] md:min-h-[calc(100dvh-89px)]">
       <header className="px-5 pt-6 pb-10 text-[var(--paper)] md:px-14 md:pt-12">
         <Link
-          href="/menu"
+          href="/#menus-teaser"
           className="mb-6 inline-flex items-center gap-1.5 font-sans text-xs uppercase tracking-[0.16em] text-[rgba(246,241,231,0.6)] no-underline"
         >
           ← All menus
