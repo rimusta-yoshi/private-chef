@@ -5,19 +5,7 @@ import { RuleMark } from "@/components/ds/RuleMark"
 import { Card } from "@/components/ds/Card"
 import { Badge } from "@/components/ds/Badge"
 import { PhotoFrame } from "@/components/ds/PhotoFrame"
-
-const TIERS = [
-  { id: "two", name: "The Two", tagline: "For couples & quiet celebrations", price: "from £140", unit: "per guest" },
-  {
-    id: "table",
-    name: "The Table",
-    tagline: "For groups & gatherings",
-    price: "£150",
-    unit: "per guest",
-    featured: true,
-  },
-  { id: "bespoke", name: "Bespoke", tagline: "Composed around you", price: "On enquiry", unit: "" },
-]
+import { TIERS } from "@/lib/menu-tiers"
 
 const PILLARS: [string, string][] = [
   ["Seasonal", "The menu follows the season and the morning market, not a fixed card."],
@@ -61,14 +49,16 @@ function Hero() {
 function Section({
   children,
   tone = "page",
+  id,
 }: {
   children: React.ReactNode
   tone?: "page" | "sunken" | "card"
+  id?: string
 }) {
   const bg =
     tone === "sunken" ? "bg-[var(--surface-sunken)]" : tone === "card" ? "bg-[var(--surface-card)]" : "bg-[var(--surface-page)]"
   return (
-    <section className={`${bg} px-5 py-16 md:px-14 md:py-[140px]`}>
+    <section id={id} className={`${bg} scroll-mt-20 px-5 py-16 md:px-14 md:py-[140px]`}>
       <div className="mx-auto max-w-[1100px]">{children}</div>
     </section>
   )
@@ -104,7 +94,7 @@ export default function Home() {
         </div>
       </Section>
 
-      <Section tone="sunken">
+      <Section tone="sunken" id="menus-teaser">
         <div className="mx-auto mb-14 max-w-[640px] text-center">
           <Eyebrow>The Menus</Eyebrow>
           <h2 className="my-4 text-[clamp(1.9rem,3.2vw,2.75rem)]">Three ways to dine</h2>
@@ -114,7 +104,7 @@ export default function Home() {
         </div>
         <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
           {TIERS.map((tier) => (
-            <Link key={tier.id} href={`/menu#${tier.id}`} className="block no-underline">
+            <Link key={tier.id} href={`/menu/${tier.id}`} className="block no-underline">
               <Card interactive tone={tier.featured ? "inverse" : "raised"} padding="lg" className="flex h-full flex-col gap-3.5">
                 <div className="flex items-center justify-between">
                   <Eyebrow tone={tier.featured ? "onDark" : "accent"}>{tier.tagline}</Eyebrow>

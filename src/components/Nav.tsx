@@ -8,7 +8,7 @@ import { Button } from "@/components/ds/Button"
 
 const LINKS = [
   { href: "/", label: "Home" },
-  { href: "/menu", label: "The Menus" },
+  { href: "/menu", mobileHref: "/#menus-teaser", label: "The Menus" },
   { href: "/story", label: "Our Story" },
 ]
 
@@ -85,7 +85,7 @@ export function Nav() {
               {LINKS.map((link) => (
                 <Link
                   key={link.href}
-                  href={link.href}
+                  href={link.mobileHref ?? link.href}
                   onClick={() => setOpen(false)}
                   className={`border-b border-[var(--line)] py-[22px] font-display text-3xl ${pathname === link.href ? "text-[var(--accent-strong)]" : "text-[var(--text-strong)]"}`}
                 >
