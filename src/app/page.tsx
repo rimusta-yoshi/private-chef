@@ -1,4 +1,3 @@
-import Link from "next/link"
 import { Button } from "@/components/ds/Button"
 import { Eyebrow } from "@/components/ds/Eyebrow"
 import { RuleMark } from "@/components/ds/RuleMark"
@@ -13,9 +12,9 @@ const PILLARS: [string, string][] = [
   ["Cooked live", "Two chefs cook and plate every course in front of you, one by one."],
 ]
 
-function TierTeaserCard({ tier }: { tier: Tier }) {
+function TierTeaserCard({ tier, href }: { tier: Tier; href: string }) {
   return (
-    <Card interactive tone={tier.featured ? "inverse" : "raised"} padding="lg" className="flex h-full flex-col gap-3.5">
+    <Card tone={tier.featured ? "inverse" : "raised"} padding="lg" className="flex h-full flex-col gap-3.5">
       <div className="flex items-center justify-between">
         <Eyebrow tone={tier.featured ? "onDark" : "accent"}>{tier.tagline}</Eyebrow>
         {tier.featured && <Badge tone="brass">Signature</Badge>}
@@ -36,6 +35,11 @@ function TierTeaserCard({ tier }: { tier: Tier }) {
             {tier.unit}
           </span>
         )}
+      </div>
+      <div className="mt-1.5">
+        <Button variant={tier.featured ? "accent" : "secondary"} href={href} block>
+          View this menu
+        </Button>
       </div>
     </Card>
   )
@@ -65,10 +69,7 @@ function Hero() {
           <Button variant="accent" size="lg" block href="/reserve" className="md:w-auto">
             Reserve an evening
           </Button>
-          <Button variant="secondary" size="lg" onDark block href="/#menus-teaser" className="md:hidden">
-            View the menus
-          </Button>
-          <Button variant="secondary" size="lg" onDark href="/menu" className="hidden md:inline-flex">
+          <Button variant="secondary" size="lg" onDark block href="/menu" className="md:w-auto">
             View the menus
           </Button>
         </div>
@@ -135,14 +136,14 @@ export default function Home() {
         </div>
         <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
           {TIERS.map((tier) => (
-            <Link key={tier.id} href={`/menu/${tier.id}`} className="block no-underline md:hidden">
-              <TierTeaserCard tier={tier} />
-            </Link>
+            <div key={tier.id} className="md:hidden">
+              <TierTeaserCard tier={tier} href={`/menu/${tier.id}`} />
+            </div>
           ))}
           {TIERS.map((tier) => (
-            <Link key={tier.id} href={`/menu#${tier.id}`} className="hidden no-underline md:block">
-              <TierTeaserCard tier={tier} />
-            </Link>
+            <div key={tier.id} className="hidden md:block">
+              <TierTeaserCard tier={tier} href={`/menu#${tier.id}`} />
+            </div>
           ))}
         </div>
         <div className="mt-11 hidden text-center md:block">
