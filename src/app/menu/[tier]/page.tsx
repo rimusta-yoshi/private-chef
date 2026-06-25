@@ -35,7 +35,13 @@ export default async function TierDetailPage({ params }: { params: Promise<{ tie
       <header className="px-5 pt-6 pb-10 text-[var(--paper)] md:px-14 md:pt-12">
         <Link
           href="/#menus-teaser"
-          className="mb-6 inline-flex items-center gap-1.5 font-sans text-xs uppercase tracking-[0.16em] text-[rgba(246,241,231,0.6)] no-underline"
+          className="mb-6 inline-flex items-center gap-1.5 font-sans text-xs uppercase tracking-[0.16em] text-[rgba(246,241,231,0.6)] no-underline md:hidden"
+        >
+          ← All menus
+        </Link>
+        <Link
+          href="/menu"
+          className="mb-6 hidden items-center gap-1.5 font-sans text-xs uppercase tracking-[0.16em] text-[rgba(246,241,231,0.6)] no-underline md:inline-flex"
         >
           ← All menus
         </Link>

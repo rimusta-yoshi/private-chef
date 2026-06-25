@@ -5,13 +5,41 @@ import { RuleMark } from "@/components/ds/RuleMark"
 import { Card } from "@/components/ds/Card"
 import { Badge } from "@/components/ds/Badge"
 import { PhotoFrame } from "@/components/ds/PhotoFrame"
-import { TIERS } from "@/lib/menu-tiers"
+import { TIERS, type Tier } from "@/lib/menu-tiers"
 
 const PILLARS: [string, string][] = [
   ["Seasonal", "The menu follows the season and the morning market, not a fixed card."],
   ["At home", "We bring the kitchen to you — your home, your table, your evening."],
   ["Cooked live", "Two chefs cook and plate every course in front of you, one by one."],
 ]
+
+function TierTeaserCard({ tier }: { tier: Tier }) {
+  return (
+    <Card interactive tone={tier.featured ? "inverse" : "raised"} padding="lg" className="flex h-full flex-col gap-3.5">
+      <div className="flex items-center justify-between">
+        <Eyebrow tone={tier.featured ? "onDark" : "accent"}>{tier.tagline}</Eyebrow>
+        {tier.featured && <Badge tone="brass">Signature</Badge>}
+      </div>
+      <h3 className={`text-3xl ${tier.featured ? "text-[var(--paper)]" : "text-[var(--text-strong)]"}`}>
+        {tier.name}
+      </h3>
+      <div className="flex items-baseline gap-2">
+        <span
+          className={`font-display text-[26px] ${tier.featured ? "text-[var(--accent-tint)]" : "text-[var(--accent-strong)]"}`}
+        >
+          {tier.price}
+        </span>
+        {tier.unit && (
+          <span
+            className={`text-xs uppercase tracking-[0.1em] ${tier.featured ? "text-[rgba(246,241,231,0.6)]" : "text-[var(--text-muted)]"}`}
+          >
+            {tier.unit}
+          </span>
+        )}
+      </div>
+    </Card>
+  )
+}
 
 function Hero() {
   return (
@@ -37,7 +65,10 @@ function Hero() {
           <Button variant="accent" size="lg" block href="/reserve" className="md:w-auto">
             Reserve an evening
           </Button>
-          <Button variant="secondary" size="lg" onDark block href="/#menus-teaser" className="md:w-auto">
+          <Button variant="secondary" size="lg" onDark block href="/#menus-teaser" className="md:hidden">
+            View the menus
+          </Button>
+          <Button variant="secondary" size="lg" onDark href="/menu" className="hidden md:inline-flex">
             View the menus
           </Button>
         </div>
@@ -104,32 +135,20 @@ export default function Home() {
         </div>
         <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
           {TIERS.map((tier) => (
-            <Link key={tier.id} href={`/menu/${tier.id}`} className="block no-underline">
-              <Card interactive tone={tier.featured ? "inverse" : "raised"} padding="lg" className="flex h-full flex-col gap-3.5">
-                <div className="flex items-center justify-between">
-                  <Eyebrow tone={tier.featured ? "onDark" : "accent"}>{tier.tagline}</Eyebrow>
-                  {tier.featured && <Badge tone="brass">Signature</Badge>}
-                </div>
-                <h3 className={`text-3xl ${tier.featured ? "text-[var(--paper)]" : "text-[var(--text-strong)]"}`}>
-                  {tier.name}
-                </h3>
-                <div className="flex items-baseline gap-2">
-                  <span
-                    className={`font-display text-[26px] ${tier.featured ? "text-[var(--accent-tint)]" : "text-[var(--accent-strong)]"}`}
-                  >
-                    {tier.price}
-                  </span>
-                  {tier.unit && (
-                    <span
-                      className={`text-xs uppercase tracking-[0.1em] ${tier.featured ? "text-[rgba(246,241,231,0.6)]" : "text-[var(--text-muted)]"}`}
-                    >
-                      {tier.unit}
-                    </span>
-                  )}
-                </div>
-              </Card>
+            <Link key={tier.id} href={`/menu/${tier.id}`} className="block no-underline md:hidden">
+              <TierTeaserCard tier={tier} />
             </Link>
           ))}
+          {TIERS.map((tier) => (
+            <Link key={tier.id} href={`/menu#${tier.id}`} className="hidden no-underline md:block">
+              <TierTeaserCard tier={tier} />
+            </Link>
+          ))}
+        </div>
+        <div className="mt-11 hidden text-center md:block">
+          <Button variant="primary" href="/menu" trailing={<span>→</span>}>
+            See all three menus
+          </Button>
         </div>
       </Section>
 
