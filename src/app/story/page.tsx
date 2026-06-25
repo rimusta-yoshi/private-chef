@@ -5,7 +5,9 @@ import { RuleMark } from "@/components/ds/RuleMark"
 import { PhotoFrame } from "@/components/ds/PhotoFrame"
 
 export const metadata: Metadata = {
-  title: "Our Story | Plated & Private",
+  title: "Our Story",
+  description:
+    "How two chefs brought the restaurant tasting menu into the dining room — Plated & Private, a private chef service based in Norwich, Norfolk.",
 }
 
 const PILLARS: [string, string][] = [

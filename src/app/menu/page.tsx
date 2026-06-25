@@ -7,7 +7,9 @@ import { Card } from "@/components/ds/Card"
 import { Badge } from "@/components/ds/Badge"
 
 export const metadata: Metadata = {
-  title: "The Menus | Plated & Private",
+  title: "The Menus",
+  description:
+    "Three ways to dine with Plated & Private: The Two, The Table, and a fully Bespoke menu — seasonal tasting menus cooked live at your table in Norwich and across Norfolk.",
 }
 
 const ROMAN = ["I", "II", "III", "IV", "V", "VI", "VII"]
@@ -154,7 +156,7 @@ export default function MenuPage() {
 
       <section className="mx-auto max-w-[1100px] px-5 py-12 md:px-14 md:py-24">
         {TIERS.map((tier, i) => (
-          <div key={tier.id}>
+          <div key={tier.id} id={tier.id} className="scroll-mt-24">
             <TierRow tier={tier} flip={i % 2 === 1} />
             {i < TIERS.length - 1 && (
               <div className="my-12 md:my-21">

@@ -47,8 +47,8 @@ export function Footer() {
           >
             hello@platedandprivate.com
           </a>
-          <span className="block py-1.5 text-sm">+44 20 7000 0000</span>
-          <span className="block py-1.5 text-sm">London</span>
+          <span className="block py-1.5 text-sm">+44 1603 000 000</span>
+          <span className="block py-1.5 text-sm">Norwich, Norfolk</span>
         </div>
       </div>
       <div className="mx-auto mt-12 max-w-[1100px]">

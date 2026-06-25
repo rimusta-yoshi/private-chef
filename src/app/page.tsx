@@ -1,3 +1,4 @@
+import Link from "next/link"
 import { Button } from "@/components/ds/Button"
 import { Eyebrow } from "@/components/ds/Eyebrow"
 import { RuleMark } from "@/components/ds/RuleMark"
@@ -6,9 +7,16 @@ import { Badge } from "@/components/ds/Badge"
 import { PhotoFrame } from "@/components/ds/PhotoFrame"
 
 const TIERS = [
-  { name: "The Two", tagline: "For couples & quiet celebrations", price: "from £140", unit: "per guest" },
-  { name: "The Table", tagline: "For groups & gatherings", price: "£150", unit: "per guest", featured: true },
-  { name: "Bespoke", tagline: "Composed around you", price: "On enquiry", unit: "" },
+  { id: "two", name: "The Two", tagline: "For couples & quiet celebrations", price: "from £140", unit: "per guest" },
+  {
+    id: "table",
+    name: "The Table",
+    tagline: "For groups & gatherings",
+    price: "£150",
+    unit: "per guest",
+    featured: true,
+  },
+  { id: "bespoke", name: "Bespoke", tagline: "Composed around you", price: "On enquiry", unit: "" },
 ]
 
 const PILLARS: [string, string][] = [
@@ -27,7 +35,7 @@ function Hero() {
       }}
     >
       <div className="relative z-10 mx-auto max-w-[820px]">
-        <Eyebrow tone="onDark">Private chef · Fine dining at home</Eyebrow>
+        <Eyebrow tone="onDark">Private chef in Norwich, Norfolk</Eyebrow>
         <h1 className="mt-[22px] text-[clamp(2.75rem,6vw,5rem)] font-medium text-[var(--paper)]">
           Fine dining,
           <br />
@@ -35,7 +43,7 @@ function Hero() {
         </h1>
         <p className="mx-auto mt-6 max-w-[560px] font-sans text-base leading-[1.7] text-[rgba(246,241,231,0.74)] md:text-lg">
           A seasonal tasting menu, cooked live by two private chefs — in your home, for your guests, on your
-          evening.
+          evening. Based in Norwich, serving private dining across Norfolk.
         </p>
         <div className="mt-9 flex flex-col items-center justify-center gap-3 md:flex-row md:gap-4">
           <Button variant="accent" size="lg" block href="/reserve" className="md:w-auto">
@@ -106,29 +114,31 @@ export default function Home() {
         </div>
         <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
           {TIERS.map((tier) => (
-            <Card key={tier.name} interactive tone={tier.featured ? "inverse" : "raised"} padding="lg" className="flex flex-col gap-3.5">
-              <div className="flex items-center justify-between">
-                <Eyebrow tone={tier.featured ? "onDark" : "accent"}>{tier.tagline}</Eyebrow>
-                {tier.featured && <Badge tone="brass">Signature</Badge>}
-              </div>
-              <h3 className={`text-3xl ${tier.featured ? "text-[var(--paper)]" : "text-[var(--text-strong)]"}`}>
-                {tier.name}
-              </h3>
-              <div className="flex items-baseline gap-2">
-                <span
-                  className={`font-display text-[26px] ${tier.featured ? "text-[var(--accent-tint)]" : "text-[var(--accent-strong)]"}`}
-                >
-                  {tier.price}
-                </span>
-                {tier.unit && (
+            <Link key={tier.id} href={`/menu#${tier.id}`} className="block no-underline">
+              <Card interactive tone={tier.featured ? "inverse" : "raised"} padding="lg" className="flex h-full flex-col gap-3.5">
+                <div className="flex items-center justify-between">
+                  <Eyebrow tone={tier.featured ? "onDark" : "accent"}>{tier.tagline}</Eyebrow>
+                  {tier.featured && <Badge tone="brass">Signature</Badge>}
+                </div>
+                <h3 className={`text-3xl ${tier.featured ? "text-[var(--paper)]" : "text-[var(--text-strong)]"}`}>
+                  {tier.name}
+                </h3>
+                <div className="flex items-baseline gap-2">
                   <span
-                    className={`text-xs uppercase tracking-[0.1em] ${tier.featured ? "text-[rgba(246,241,231,0.6)]" : "text-[var(--text-muted)]"}`}
+                    className={`font-display text-[26px] ${tier.featured ? "text-[var(--accent-tint)]" : "text-[var(--accent-strong)]"}`}
                   >
-                    {tier.unit}
+                    {tier.price}
                   </span>
-                )}
-              </div>
-            </Card>
+                  {tier.unit && (
+                    <span
+                      className={`text-xs uppercase tracking-[0.1em] ${tier.featured ? "text-[rgba(246,241,231,0.6)]" : "text-[var(--text-muted)]"}`}
+                    >
+                      {tier.unit}
+                    </span>
+                  )}
+                </div>
+              </Card>
+            </Link>
           ))}
         </div>
         <div className="mt-11 text-center">
